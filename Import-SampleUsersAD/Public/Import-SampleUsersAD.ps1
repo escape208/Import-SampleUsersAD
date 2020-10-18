@@ -13,10 +13,6 @@ Function Import-SampleUsersAD {
         $NumberOfUsers = 1,
 
         [Parameter(Mandatory = $false)]
-        [string]
-        $NewUserOutput = "NewUsers.csv",
-
-        [Parameter(Mandatory = $false)]
         [bool]
         $Enabled = $false,
 
@@ -76,6 +72,7 @@ Function Import-SampleUsersAD {
                 OfficePhone       = $user.phone
                 MobilePhone       = $user.cell
                 UserPrincipalName = ($user.login.username + "@" + $suffix)
+                Department        = $department
                 Enabled           = $Enabled
             }
 
