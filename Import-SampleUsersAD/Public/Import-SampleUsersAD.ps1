@@ -6,11 +6,22 @@ Function Import-SampleUsersAD {
 
         [Parameter(Mandatory = $false)]
         [String]
-        $BaseOU = "Personal Accounts",
+        $BaseOUName = "Personal Accounts",
 
         [Parameter(Mandatory = $false)]
         [int]
         $NumberOfUsers = 1,
+
+        [Parameter(Mandatory = $false)]
+        [string]
+        $NewUserOutput = "NewUsers.csv",
+
+        [Parameter(Mandatory = $false)]
+        [bool]
+        $Enabled = $false,
+
+        [switch]
+        $GenerateSecurePassword,
 
         [Parameter(Mandatory = $false)]
         [pscredential]
@@ -26,8 +37,15 @@ Function Import-SampleUsersAD {
     }
 
     try {
-
         $GlobalParams = @{}
+
+        $now = (Get-Date -Format "MMddyyyy-HHmmss")
+
+        if (-not (Test-Path ".\Output\")) {
+            New-Item -Name "Output" -ItemType Directory
+        }
+
+        $NewUserOutput = ".\Output\CreatedUsers-$now.csv"
 
         if ($Credential) {
             $GlobalParams.Add("Credential", $Credential)
@@ -37,33 +55,64 @@ Function Import-SampleUsersAD {
             $GlobalParams.Add("Server", $Server)
         }
 
-        if (-not (Test-Path ".\Output\")) {
-            New-Item -Name "Output" -ItemType Directory
-        }        
+        $suffix = (Get-ADForest @GlobalParams).Name
     
-        $myUsers = Get-SampleUserData | ConvertFrom-Json
+        $myUsers = Get-SampleUserData -NumberOfUsers $NumberOfUsers | ConvertFrom-Json
 
-        $ou = Get-ADOrganizationalUnit -LDAPFilter "(name=$BaseOU)" @GlobalParams
-
-        if (-not $ou) {
-            $ou = New-ADOrganizationalUnit -Name $BaseOU -Description "OU Created by Import-SampleUsersAD" @GlobalParams -PassThru
-        }
+        $parentDn = Assert-OUExists -Name $BaseOUName @GlobalParams
             
         foreach ($user in $myUsers) {
+
             $job = Get-RandomJob
             $department = $job.Department
-            $username = $user.login.username
-            $parentDn = $ou.DistinguishedName
+            $departmentOU = Assert-OUExists -Name $department -BaseOU $parentDn @GlobalParams
 
-            $departmentOU = Get-ADOrganizationalUnit -LDAPFilter "(name=$department)" -SearchBase $($ou.DistinguishedName) @GlobalParams
-
-            if (-not $departmentOU) {
-                $departmentOU = New-ADOrganizationalUnit -Name $department -Description "OU Created by Import-SampleUsersAD" -Path $parentDn @GlobalParams -PassThru
+            $userParams = @{
+                Name              = $user.login.username
+                Path              = $departmentOU.DistinguishedName
+                GivenName         = $user.name.first
+                Surname           = $user.name.last
+                Title             = $job.Title
+                OfficePhone       = $user.phone
+                MobilePhone       = $user.cell
+                UserPrincipalName = ($user.login.username + "@" + $suffix)
+                Enabled           = $Enabled
             }
 
-            $createdUser = New-ADUser -Name $username -Path $departmentOU -Title $job.Title @GlobalParams -PassThru
-            Write-Host "Created user $($createdUser.Name), Title = '$($createdUser.Title)'" -ForegroundColor Green
+            $plainTextPwd = $null
+            if ($Enabled -or $GenerateSecurePassword) {
+                $plainTextPwd = New-SWRandomPassword -MinPasswordLength 8 -MaxPasswordLength 15 -Count 1
+                
+                $userParams.Add("AccountPassword", ($plainTextPwd | ConvertTo-SecureString -AsPlainText -Force))
+            }
+
+            $createdUser = New-ADUser @GlobalParams @userParams -PassThru
+
+            $createdUserPSO = [pscustomobject]@{ }
+
+            #Populate the PSCustomObject with our attribute data
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "Name" -Value $createdUser.Name
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "GivenName" -Value $createdUser.GivenName
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "Surname" -Value $createdUser.Surname
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "DistinguishedName" -Value $createdUser.DistinguishedName
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "Title" -Value $userParams.Title
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "OfficePhone" -Value $userParams.OfficePhone
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "MobilePhone" -Value $userParams.MobilePhone
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "UserPrincipalName" -Value $userParams.UserPrincipalName
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "AccountPassword" $plainTextPwd
+            $createdUserPSO | Add-Member -MemberType NoteProperty -Name "Enabled" -Value $Enabled
+
+            Write-Host "Created user '$($userParams.Name)', Title = '$($userParams.Title)'" -ForegroundColor Green
+
+            $createdUserPSO | Export-Csv -Path $NewUserOutput -Append
             
+        }
+
+        if (Test-Path $NewUserOutput) {
+            Write-Host "A copy of created users can be found here $NewUserOutput" -ForegroundColor Green
+        }
+        else {
+            Write-Host "No users created" -ForegroundColor Yellow
         }
 
     }

@@ -5,7 +5,10 @@ param (
 
     [Parameter(Mandatory = $false)]
     [String]
-    $Server = "ad.mybudgetworld.com"
+    $Server = "ad.mybudgetworld.com",
+
+    [bool]
+    $Enabled = $false
 )
 
 Import-Module -Name ".\Import-SampleUsersAD" -Force
@@ -17,6 +20,7 @@ if (-not ($myCred)) {
 $params = @{
     "Credential"    = $myCred
     "NumberOfUsers" = $NumberOfUsers
+    "Enabled"       = $Enabled
 }
 
 if ($Server) {
