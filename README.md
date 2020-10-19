@@ -1,5 +1,10 @@
 # Import-SampleUsersAD
-Generates a list of sample users and imports them into AD.  This module uses the public API from `https://randomuser.me` to generate a majority of its sample data.  Some custom data for making it more AD-appropriate is outlined below.
+Generates a list of sample users and imports them into AD.  This module uses the public API from `https://randomuser.me` to generate a majority of its sample data.  Some custom data is created by this module for making it more AD-appropriate, as outlined below.
+
+## System Requirements
+* An Active Directory Domain with permissions to create OUs and Users
+* PowerShell 7.0
+* Internet Connection (for accessing the `randomuser.me` API)
 
 ## Departments
 
@@ -18,7 +23,7 @@ The user object is placed into a parent OU of the same name as the department.  
 
 All new Department OUs are created under the `Personal Accounts` OU, or the OU specified by the user in parameter `-BaseOUName`. If this OU doesn't exist, a new one is created at the root of the domain.
 
-Default OU structure if no `-BaseOUName` is specified:
+**Default OU structure if no `-BaseOUName` is specified:**
 ```text
 OU=Personal Accounts
   |
