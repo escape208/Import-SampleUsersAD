@@ -7,6 +7,10 @@ param (
     [String]
     $Server = "ad.mybudgetworld.com",
 
+    [Parameter(Mandatory = $false)]
+    [string]
+    $BaseOUName,
+
     [bool]
     $Enabled = $false
 )
@@ -25,6 +29,10 @@ $params = @{
 
 if ($Server) {
     $params.Add("Server", $Server)
+}
+
+if ($BaseOUName) {
+    $params.Add("BaseOUName", $BaseOUName)
 }
 
 Import-SampleUsersAD @params
