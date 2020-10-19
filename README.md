@@ -1,5 +1,34 @@
 # Import-SampleUsersAD
-Generates a list of sample users and imports them into AD.
+Generates a list of sample users and imports them into AD.  Users are categorized into one of 4 departments at random:
+
+* Marketing
+* IT 
+* Engineering
+* Sales
+
+Each department has multiple titles available that are randomly assigned to the user. 
+
+## User Placement
+
+The user object is placed into a parent OU of the same name as the department.  For example a `Marketing` user will be added to the `Marketing` department OU.  If this OU doesn't already exist, a new one is created.
+
+All new Department OUs are created under the `Personal Accounts` OU, or the OU specified by the user.
+
+Default OU structure if none is specified:
+```text
+OU=Personal Accounts
+  |
+  OU=Marketing
+  |  |
+  |  CN=FirstUser
+  |  CN=SecondUser
+  |  
+  OU=IT
+    |
+    CN=ThirdUser
+    CN=FourthUser
+...
+```
 
 ## Import-SampleUsersAD
 
