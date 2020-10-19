@@ -1,5 +1,5 @@
 # Import-SampleUsersAD
-Generates a list of sample users and imports them into AD.  This module uses the public API from `https://randomuser.me` to generate a majority of its sample data.  Some custom data is created by this module for making it more AD-appropriate, as outlined below.
+This module generates a list of sample users and imports them into AD.  This module uses the public API from `https://randomuser.me` to generate a majority of its sample data.  Some custom data is created by this module for making it more AD-appropriate, as outlined below.
 
 ## System Requirements
 * An Active Directory Domain with permissions to create OUs and Users
@@ -81,7 +81,7 @@ The number of users to create.  If not specified, 1 user is created.
 
 **-Enabled**
 
-Create the User(s) in an enabled state.  If specified, a randomly-generated password that meets default AD password complexity is set on the user.  If not specified, the user is `Disabled` by default and no password is generated.  
+Default is `$False`.  Create the User(s) in an enabled or disabled state.  If `$True`, user is created as `Enabled` and a randomly-generated password that meets default AD password complexity is set on the user.  If `$False`, the user is `Disabled` and no password is generated unless `-GenerateSecurePassword` is specified.  
 
 **-GenerateSecurePassword**
 
