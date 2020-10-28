@@ -1,0 +1,153 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Import-SampleUsers.ps1 &#8212; Import-SampleUsersAD 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome!" href="index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Import-SampleUsersAD 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Import-SampleUsers.ps1</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="import-sampleusers-ps1">
+<h1>Import-SampleUsers.ps1<a class="headerlink" href="#import-sampleusers-ps1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This module generates a list of sample users and imports them into AD. This module uses the public API from <code class="docutils literal notranslate"><span class="pre">https://randomuser.me</span></code> to generate a majority of its sample data. Some custom data is created by this module for making it more AD-appropriate, as outlined below.</p>
+</div>
+<div class="section" id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>An Active Directory Domain with permissions to create OUs and Users</p></li>
+<li><p>PowerShell 7.0</p></li>
+<li><p>Internet Connection (for accessing the <code class="docutils literal notranslate"><span class="pre">randomuser.me</span></code> API)</p></li>
+</ul>
+</div>
+<div class="section" id="departments">
+<h2>Departments<a class="headerlink" href="#departments" title="Permalink to this headline">¶</a></h2>
+<p>Users are categorized into one of 4 departments at random:</p>
+<ul class="simple">
+<li><p>Marketing</p></li>
+<li><p>IT</p></li>
+<li><p>Engineering</p></li>
+<li><p>Sales</p></li>
+</ul>
+<p>Each department has multiple job titles available that are randomly assigned to the user.</p>
+</div>
+<div class="section" id="user-placement">
+<h2>User Placement<a class="headerlink" href="#user-placement" title="Permalink to this headline">¶</a></h2>
+<p>The user object is placed into a parent OU of the same name as the department. For example a <code class="docutils literal notranslate"><span class="pre">Marketing</span></code> user will be added to the <code class="docutils literal notranslate"><span class="pre">Marketing</span></code> department OU. If this OU doesn’t already exist, a new one is created.</p>
+<p>All new Department OUs are created under the <code class="docutils literal notranslate"><span class="pre">Personal</span> <span class="pre">Accounts</span></code> OU, or the OU specified by the user in parameter <code class="docutils literal notranslate"><span class="pre">-BaseOUName</span></code>. If this OU doesn’t exist, a new one is created at the root of the domain.</p>
+<p><strong>Default OU structure if no -BaseOUName is specified:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>OU=Personal Accounts
+|
+OU=Marketing
+|  |
+|  CN=FirstUser
+|  CN=SecondUser
+|
+OU=IT
+    |
+    CN=ThirdUser
+    CN=FourthUser
+...
+</pre></div>
+</div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Import-SampleUsers.ps1</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#system-requirements">System Requirements</a></li>
+<li><a class="reference internal" href="#departments">Departments</a></li>
+<li><a class="reference internal" href="#user-placement">User Placement</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome!</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Import-SampleUsers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Import-SampleUsersAD 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Import-SampleUsers.ps1</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, escape208.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>
