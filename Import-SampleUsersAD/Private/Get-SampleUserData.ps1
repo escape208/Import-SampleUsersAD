@@ -1,8 +1,8 @@
 Function Get-SampleUserData {
     param(
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $true)]
         [int]
-        $NumberOfUsers = 1
+        $NumberOfUsers
     )
 
     $myResults = Invoke-RestMethod -Uri "https://randomuser.me/api/?nat=us&inc=name,login,phone,cell&results=$NumberOfUsers" -Method Get

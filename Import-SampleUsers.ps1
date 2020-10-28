@@ -5,7 +5,14 @@ param (
 
     [Parameter(Mandatory = $false)]
     [String]
-    $Server = "ad.mybudgetworld.com"
+    $Server = "ad.mybudgetworld.com",
+
+    [Parameter(Mandatory = $false)]
+    [string]
+    $BaseOUName,
+
+    [bool]
+    $Enabled = $false
 )
 
 Import-Module -Name ".\Import-SampleUsersAD" -Force
@@ -17,10 +24,15 @@ if (-not ($myCred)) {
 $params = @{
     "Credential"    = $myCred
     "NumberOfUsers" = $NumberOfUsers
+    "Enabled"       = $Enabled
 }
 
 if ($Server) {
     $params.Add("Server", $Server)
+}
+
+if ($BaseOUName) {
+    $params.Add("BaseOUName", $BaseOUName)
 }
 
 Import-SampleUsersAD @params
