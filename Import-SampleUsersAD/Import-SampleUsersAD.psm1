@@ -6,6 +6,7 @@ try {
         . $import.fullname
     }
     
+    Export-ModuleMember -Function $public.BaseName
 }
 catch {
     Write-Error -Message "Failed to import function $($import.fullname): $($_.Exception)"
