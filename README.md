@@ -85,7 +85,7 @@ Default is `$False`.  Create the User(s) in an enabled or disabled state.  If `$
 
 **-GenerateSecurePassword**
 
-Generates a random password on the user that meets default AD Password Compleixty requirements.
+Generates a random password on the user that meets default AD Password Complexity requirements.
 
 **-Credential**
 
