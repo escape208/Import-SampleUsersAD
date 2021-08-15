@@ -4,22 +4,22 @@ Function Get-RandomJob {
 
     $Jobs += [pscustomobject]@{
         "Department" = "Marketing"
-        "Titles"     = @("Marketing Manager", "Jr Marketer", "Sr Marketer", "Dir Marketing", "VP Marketing", "EVP Marketing")
+        "Titles"     = @("Marketing Manager", "Jr Marketer", "Sr Marketer", "Director Marketing", "VP Marketing", "EVP Marketing")
     }
 
     $Jobs += [pscustomobject]@{
         "Department" = "Technology"
-        "Titles"     = @("IT Manager", "Assoc Systems Administrator", "Sr Systems Administrator", "Dir IT", "VP IT")
+        "Titles"     = @("IT Manager", "Assoc Systems Administrator", "Sr Systems Administrator", "Director IT", "VP IT")
     }
 
     $Jobs += [pscustomobject]@{
         "Department" = "Sales"
-        "Titles"     = @("Sales Manager", "Account Manager", "Jr Sales Rep", "Sr Sales Rep", "Dir Sales", "VP Sales")
+        "Titles"     = @("Sales Manager", "Account Manager", "Jr Sales Rep", "Sr Sales Rep", "Director Sales", "VP Sales")
     }
 
     $Jobs += [pscustomobject]@{
         "Department" = "Engineering"
-        "Titles"     = @("Engineering Manager", "Jr Engineer", "Sr Engineer", "Dir Engineering", "VP Engineering")
+        "Titles"     = @("Engineering Manager", "Jr Engineer", "Sr Engineer", "Director Engineering", "VP Engineering")
     }
 
     $jobIndex = Get-Random -Maximum (($Jobs | Measure-Object).Count - 1)

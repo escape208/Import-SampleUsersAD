@@ -1,13 +1,10 @@
 param (
-    [Parameter(Mandatory = $false)]
     [Int32]
     $NumberOfUsers = 1,
 
-    [Parameter(Mandatory = $false)]
     [String]
     $Server = "ad.mybudgetworld.com",
 
-    [Parameter(Mandatory = $false)]
     [string]
     $BaseOUName,
 

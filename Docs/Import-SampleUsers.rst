@@ -1,4 +1,4 @@
-Import-SampleUsers.ps1
+Import-SampleUsers
 ======================
 
 Overview
@@ -38,12 +38,12 @@ All new Department OUs are created under the ``Personal Accounts`` OU, or the OU
    
    OU=Personal Accounts
    |
-   OU=Marketing
+   |-->OU=Marketing
    |  |
    |  CN=FirstUser
    |  CN=SecondUser
    |  
-   OU=IT
+   |-->OU=IT
        |
        CN=ThirdUser
        CN=FourthUser

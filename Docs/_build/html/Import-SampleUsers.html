@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Import-SampleUsers.ps1 &#8212; Import-SampleUsersAD 0.1.0 documentation</title>
+    <title>Import-SampleUsers &#8212; Import-SampleUsersAD 0.1.0 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -34,7 +34,7 @@
           <a href="index.html" title="Welcome!"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Import-SampleUsersAD 0.1.0 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Import-SampleUsers.ps1</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Import-SampleUsers</a></li> 
       </ul>
     </div>  
 
@@ -43,8 +43,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="import-sampleusers-ps1">
-<h1>Import-SampleUsers.ps1<a class="headerlink" href="#import-sampleusers-ps1" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="import-sampleusers">
+<h1>Import-SampleUsers<a class="headerlink" href="#import-sampleusers" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>This module generates a list of sample users and imports them into AD. This module uses the public API from <code class="docutils literal notranslate"><span class="pre">https://randomuser.me</span></code> to generate a majority of its sample data. Some custom data is created by this module for making it more AD-appropriate, as outlined below.</p>
@@ -75,12 +75,12 @@
 <p><strong>Default OU structure if no -BaseOUName is specified:</strong></p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>OU=Personal Accounts
 |
-OU=Marketing
+|--&gt;OU=Marketing
 |  |
 |  CN=FirstUser
 |  CN=SecondUser
 |
-OU=IT
+|--&gt;OU=IT
     |
     CN=ThirdUser
     CN=FourthUser
@@ -99,7 +99,7 @@ OU=IT
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Import-SampleUsers.ps1</a><ul>
+<li><a class="reference internal" href="#">Import-SampleUsers</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a></li>
 <li><a class="reference internal" href="#system-requirements">System Requirements</a></li>
 <li><a class="reference internal" href="#departments">Departments</a></li>
@@ -142,7 +142,7 @@ OU=IT
           <a href="index.html" title="Welcome!"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Import-SampleUsersAD 0.1.0 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Import-SampleUsers.ps1</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Import-SampleUsers</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
